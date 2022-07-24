@@ -43,12 +43,12 @@ const DashboardRoute = () => {
 							</ListItemText>
 						</ListItem>
 
-						<ListItem button component={NavLink} selected exact to={"/dashboard/links"} activeClassName="active" replace sx={{ width: "240px" }}>
+						<ListItem button component={NavLink} selected to={"/dashboard/links"} activeClassName="active" sx={{ width: "240px" }}>
 							<ListItemText disableTypography>
 								<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>All links</Typography>
 							</ListItemText>
 						</ListItem>
-						<ListItem button component={NavLink} exact to={"/"} activeClassName="active" replace sx={{ width: "240px" }}>
+						<ListItem button component={NavLink} to={"/"} activeClassName="active" sx={{ width: "240px" }}>
 							<ListItemText disableTypography>
 								<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>Setting</Typography>
 							</ListItemText>
@@ -61,7 +61,7 @@ const DashboardRoute = () => {
 						</ListItem>
 					</List>
 				</Drawer>
-				<Box>
+				<Box sx={{ width: "100%" }}>
 					<React.Suspense fallback={<Loading />}>
 						<Outlet />
 					</React.Suspense>

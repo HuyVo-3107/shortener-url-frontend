@@ -14,13 +14,6 @@ const Login = () => {
 	let navigate = useNavigate();
 	let location = useLocation();
 
-	const { isFetching: loading, isSuccess: success, data: user_data, isError: user_error } = UserApi.Information();
-
-	console.log("user_data", user_data);
-	console.log("loading", loading);
-	console.log("success", success);
-	console.log("user_error", user_error);
-
 	const { setNotification } = useContext(NotificationContext);
 	const {
 		handleSubmit,
@@ -35,7 +28,6 @@ const Login = () => {
 
 	const onSubmit = (data) => {
 		console.log("data", data);
-		setNotification({ open: true, message: "error", variant: "error" }, true);
 		UserApi.Login(data, setNotification)
 			.then(({ data, headers }) => {
 				UpdateSubmited(false);

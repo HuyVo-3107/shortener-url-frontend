@@ -73,6 +73,7 @@ export const xhr = async (url, data, method, headers = {}, options) => {
 export const xhr_simple = async (url, data, method, headers, option) => {
 	headers = {
 		"X-Requested-With": "XMLHttpRequest",
+		crossdomain: true,
 		...headers,
 	};
 

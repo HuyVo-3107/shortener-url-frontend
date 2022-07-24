@@ -12,6 +12,8 @@ import { SnackbarProvider } from "notistack";
 import ErrorBoundary from "./containers/ErrorBoundary";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Links from "./features/Links";
+import RedirectShortUrl from "./features/RedirectShortUrl";
+
 const App = () => {
 	const queryClient = new QueryClient();
 	return (
@@ -28,6 +30,7 @@ const App = () => {
 											<Route path="links" element={<Links />} />
 										</Route>
 									</Route>
+									<Route path="/s/*" element={<RedirectShortUrl />} />
 								</Routes>
 							</Router>
 						</React.Suspense>
