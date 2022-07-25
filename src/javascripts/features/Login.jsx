@@ -27,7 +27,6 @@ const Login = () => {
 	const redirect = _.last(location.hash.split("#")) === "" ? "/dashboard" : _.last(location.hash.split("#"));
 
 	const onSubmit = (data) => {
-		console.log("data", data);
 		UserApi.Login(data, setNotification)
 			.then(({ data, headers }) => {
 				UpdateSubmitted(false);

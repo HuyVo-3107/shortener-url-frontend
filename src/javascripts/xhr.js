@@ -58,7 +58,6 @@ export const xhr = async (url, data, method, headers = {}, options) => {
 		crossdomain: true,
 		...headers,
 	};
-	console.log("headers", headers);
 
 	return await axios_config({
 		method: method,

@@ -11,7 +11,6 @@ class LinkApi {
 		return useQueryNotification({
 			key: ["link.list", params],
 			func: async () => {
-				console.log("LinkApi");
 				const { data } = await xhr(`${constant.API_URL}/links?${paramsQueryString}`, {}, "GET", {}, {});
 
 				if (data.error) {
@@ -53,11 +52,9 @@ class LinkApi {
 	};
 
 	GetLink = (short_path) => {
-		console.log("short_path", short_path);
 		return useQueryNotification({
 			key: ["link.list", short_path],
 			func: async () => {
-				console.log("LinkApi");
 				const { data } = await xhr_simple(`${constant.API_URL}/links/${short_path}/get_url`, {}, "GET", {}, {});
 
 				if (data.error) {
@@ -77,7 +74,6 @@ class LinkApi {
 
 	Create = ({ link }, callback) => {
 		return xhr(`${constant.API_URL}/links`, link, "POST").then(({ data }) => {
-			console.log("data", data);
 			if (typeof data.errors !== "undefined") {
 				if (typeof data.errors !== "undefined") {
 					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
@@ -101,7 +97,6 @@ class LinkApi {
 			key: ["link.detail", short_path],
 			func: async () => {
 				const { data } = await xhr(`${constant.API_URL}/links/${short_path}`, {}, "GET", {}, {});
-				console.log("data Detail", data.data);
 				if (data.error) {
 					return {
 						link: {},
@@ -125,7 +120,6 @@ class LinkApi {
 
 	Update = ({ link, shortener_path }, callback) => {
 		return xhr(`${constant.API_URL}/links/${shortener_path}`, link, "PUT").then(({ data }) => {
-			console.log("data", data);
 			if (typeof data.errors !== "undefined") {
 				if (typeof data.errors !== "undefined") {
 					callback({ open: true, message: data.errors?.message, variant: "error" }, true);

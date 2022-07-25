@@ -8,7 +8,6 @@ export const useQueryNotification = ({ key, func, options = {} }) => {
 
 	const query = useQuery(key, func, {
 		onError: (error) => {
-			console.log("error", error.message);
 			if (options.alert) setNotification({ open: true, message: error.message, variant: "error" }, true);
 		},
 		onSuccess: (data) => {

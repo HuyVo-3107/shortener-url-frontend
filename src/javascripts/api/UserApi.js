@@ -45,7 +45,6 @@ class UserApi {
 		return useQueryNotification({
 			key: ["user.information"],
 			func: async () => {
-				console.log("User information request");
 				const { data } = await xhr(`${constant.API_URL}/user/user_info`, {}, "GET", {}, {});
 
 				if (data.error) return data;
@@ -61,7 +60,6 @@ class UserApi {
 
 	Update = ({ user }, callback) => {
 		return xhr(`${constant.API_URL}/user`, user, "PUT").then(({ data }) => {
-			console.log("data", data);
 			if (typeof data.errors !== "undefined") {
 				if (typeof data.errors !== "undefined") {
 					callback({ open: true, message: data.errors?.message, variant: "error" }, true);

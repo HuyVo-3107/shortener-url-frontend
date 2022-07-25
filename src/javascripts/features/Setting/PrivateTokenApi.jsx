@@ -19,7 +19,6 @@ const PrivateTokenApi = ({ defaultValue = {}, callback }) => {
 		UpdateSubmitted(true);
 		UserApi.GenerateNewToken(setNotification)
 			.then(({ data, status }) => {
-				console.log("data", data);
 				if (data.token) {
 					UpdateToken(data.token);
 					setNotification({ open: true, message: "Generate new token success", variant: "success" }, true);
@@ -43,7 +42,6 @@ const PrivateTokenApi = ({ defaultValue = {}, callback }) => {
 	const handleCopyClick = (copyText = "") => {
 		copyTextToClipboard(copyText)
 			.then(() => {
-				console.log("copyText", copyText);
 				setNotification({ open: true, message: "Copied in Clipboard", variant: "success" }, true);
 			})
 			.catch((err) => {

@@ -15,10 +15,8 @@ const LinkDetail = () => {
 
 	const navigate = useNavigate();
 	const { short_path } = useParams();
-	console.log("short_path", short_path);
 	const { data, refetch, isError } = LinkApi.Detail({ short_path: short_path });
 	const { link } = data || {};
-	console.log("data", link);
 
 	useEffect(() => {
 		if (isError) {
@@ -36,8 +34,7 @@ const LinkDetail = () => {
 
 	const handleCopyClick = (copyText) => {
 		copyTextToClipboard(copyText)
-			.then(() => {
-				console.log("copyText", copyText);
+			.then(() => { 
 				setNotification({ open: true, message: "Copied in Clipboard", variant: "success" }, true);
 			})
 			.catch((err) => {

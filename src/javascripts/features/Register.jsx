@@ -32,7 +32,6 @@ const Register = () => {
 	const redirect = _.last(location.hash.split("#")) === "" ? "/dashboard" : _.last(location.hash.split("#"));
 
 	const onSubmit = (data) => {
-		console.log("data", data);
 		UserApi.Register({ user: data }, setNotification)
 			.then(({ data, headers }) => {
 				UpdateSubmitted(false);

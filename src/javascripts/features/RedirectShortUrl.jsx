@@ -10,7 +10,6 @@ const RedirectShortUrl = () => {
 
 	const path = location.pathname.split("/s/")[1];
 	const { data: data, isSuccess } = LinkApi.GetLink(path);
-	console.log("data", data);
 
 	useEffect(() => {
 		if (isSuccess) {

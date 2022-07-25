@@ -22,8 +22,6 @@ const LinkEdit = ({ handleClose, open, defaultValue, callback, ...props }) => {
 		UpdateSubmitted(true);
 		LinkApi.Update({ link: data, shortener_path: defaultValue?.shortener_path }, setNotification)
 			.then(({ data, status }) => {
-				console.log("data", data);
-				console.log("status", status);
 				if (data.link) {
 					if (status == 200) setNotification({ open: true, message: "Update Link success", variant: "success" }, true);
 				}

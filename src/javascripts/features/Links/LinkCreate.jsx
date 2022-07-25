@@ -22,12 +22,9 @@ const LinkCreate = ({ handleClose, open, callback, ...props }) => {
 	} = useForm();
 
 	const onSubmit = (data) => {
-		console.log("data create link", data);
 		UpdateSubmitted(true);
 		LinkApi.Create({ link: data }, setNotification)
 			.then(({ data, status }) => {
-				console.log("data", data);
-				console.log("status", status);
 				if (data.link) {
 					if (status == 201) setNotification({ open: true, message: "Create Link success", variant: "success" }, true);
 					if (status == 301) {
