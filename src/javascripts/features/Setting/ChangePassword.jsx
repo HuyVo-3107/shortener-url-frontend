@@ -54,7 +54,7 @@ const ChangePassword = ({ defaultValue }) => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end" style={{ marginTop: -16 }}>
-										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword(!isShowPassword.current_password)}>
+										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword((prev) => ({ ...prev, password: !prev.password }))}>
 											{isShowPassword.current_password ? <Visibility /> : <VisibilityOff />}
 										</IconButton>
 									</InputAdornment>
@@ -86,7 +86,7 @@ const ChangePassword = ({ defaultValue }) => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end" style={{ marginTop: -16 }}>
-										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword(!isShowPassword.new_password)}>
+										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword((prev) => ({ ...prev, new_password: !prev.new_password }))}>
 											{isShowPassword.new_password ? <Visibility /> : <VisibilityOff />}
 										</IconButton>
 									</InputAdornment>
@@ -118,7 +118,7 @@ const ChangePassword = ({ defaultValue }) => {
 							InputProps={{
 								endAdornment: (
 									<InputAdornment position="end" style={{ marginTop: -16 }}>
-										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword(!isShowPassword.new_password_confirmation)}>
+										<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword((prev) => ({ ...prev, new_password_confirmation: !prev.new_password_confirmation }))}>
 											{isShowPassword.new_password_confirmation ? <Visibility /> : <VisibilityOff />}
 										</IconButton>
 									</InputAdornment>

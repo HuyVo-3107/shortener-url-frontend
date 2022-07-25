@@ -23,22 +23,20 @@ class UserApi {
 		});
 	};
 
-	Register = ({ data }, callback) => {
-		return xhr_simple(`${constant.AUTH_URL}/auth/register`, data, "POST").then(({ data }) => {
-			if (typeof data.errors !== "undefined") {
+	Register = ({ user }, callback) => {
+		return xhr_simple(`${constant.AUTH_URL}/auth/register`, user, "POST").then(({ data }) => {
+			if (data.status !== 200 || typeof data.errors !== "undefined") {
 				if (typeof data.errors !== "undefined") {
 					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
 				}
 
 				return {
 					data: undefined,
-					error: data.errors,
 				};
 			}
 
 			return {
-				data: data.data,
-				status: data.status,
+				data: data,
 			};
 		});
 	};

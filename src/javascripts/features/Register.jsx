@@ -10,7 +10,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import NotificationContext from "../context/notification";
 import UserApi from "../api/UserApi";
 
-const Login = () => {
+const Register = () => {
 	let navigate = useNavigate();
 	let location = useLocation();
 
@@ -19,16 +19,21 @@ const Login = () => {
 		handleSubmit,
 		control,
 		formState: { errors },
+		watch,
 	} = useForm();
 
 	const ref = useRef(null);
-	const [isShowPassword, UpdateShowPassword] = useState(false);
+	const [isShowPassword, UpdateShowPassword] = useState({ password: false, password_confirm: false });
+
+	const password = useRef({});
+	password.current = watch("password", "");
 	const [submitted, UpdateSubmitted] = useState(false);
+
 	const redirect = _.last(location.hash.split("#")) === "" ? "/dashboard" : _.last(location.hash.split("#"));
 
 	const onSubmit = (data) => {
 		console.log("data", data);
-		UserApi.Login(data, setNotification)
+		UserApi.Register({ user: data }, setNotification)
 			.then(({ data, headers }) => {
 				UpdateSubmitted(false);
 				if (typeof data === "undefined") return;
@@ -55,7 +60,7 @@ const Login = () => {
 					<Paper elevation={0}>
 						<Box sx={{ padding: 4 }}>
 							<Typography variant="h6" sx={{ marginBottom: 2 }}>
-								Sign In
+								Sign Up
 							</Typography>
 							<form ref={ref} onSubmit={handleSubmit(onSubmit)}>
 								<Box sx={{ mb: 3 }}>
@@ -75,7 +80,20 @@ const Login = () => {
 									/>
 									<ErrorMessage errors={errors} name="email" />
 								</Box>
-								<Box sx={{ marginBottom: 4 }}>
+								<Box sx={{ marginBottom: 3 }}>
+									<Controller
+										render={({ field }) => <TextField {...field} size="small" id="user-email" label="User name (*)" sx={{ minWidth: "100%" }} variant="standard" InputLabelProps={{ shrink: true }} />}
+										type="text"
+										name="name"
+										defaultValue=""
+										control={control}
+										rules={{
+											required: <Typography sx={{ fontSize: 13, color: grey[700] }}>email can't be empty.</Typography>,
+										}}
+									/>
+									<ErrorMessage errors={errors} name="name" />
+								</Box>
+								<Box sx={{ marginBottom: 3 }}>
 									<Controller
 										render={({ field }) => (
 											<TextField
@@ -85,12 +103,12 @@ const Login = () => {
 												label="Password (*)"
 												sx={{ minWidth: "100%" }}
 												variant="standard"
-												type={isShowPassword ? "text" : "password"}
+												type={isShowPassword.password ? "text" : "password"}
 												InputProps={{
 													endAdornment: (
 														<InputAdornment position="end" style={{ marginTop: -16 }}>
-															<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword(!isShowPassword)}>
-																{isShowPassword ? <Visibility /> : <VisibilityOff />}
+															<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword((prev) => ({ ...prev, password: !prev.password }))}>
+																{isShowPassword.password ? <Visibility /> : <VisibilityOff />}
 															</IconButton>
 														</InputAdornment>
 													),
@@ -102,18 +120,51 @@ const Login = () => {
 										defaultValue=""
 										control={control}
 										rules={{
-											required: <Typography sx={{ fontSize: 13, color: grey[700] }}>password can't be empty.</Typography>,
+											required: <Typography sx={{ fontSize: 13, color: grey[700] }}>Password can't be empty.</Typography>,
 										}}
 									/>
 									<ErrorMessage errors={errors} name="password" />
+								</Box>
+								<Box sx={{ marginBottom: 4 }}>
+									<Controller
+										render={({ field }) => (
+											<TextField
+												{...field}
+												size="small"
+												id="user-password"
+												label="Password confirmation (*)"
+												sx={{ minWidth: "100%" }}
+												variant="standard"
+												type={isShowPassword.password_confirm ? "text" : "password"}
+												InputProps={{
+													endAdornment: (
+														<InputAdornment position="end" style={{ marginTop: -16 }}>
+															<IconButton aria-label="toggle password visibility" onClick={() => UpdateShowPassword((prev) => ({ ...prev, password_confirm: !prev.password_confirm }))}>
+																{isShowPassword.password_confirm ? <Visibility /> : <VisibilityOff />}
+															</IconButton>
+														</InputAdornment>
+													),
+												}}
+												InputLabelProps={{ shrink: true }}
+											/>
+										)}
+										name="password_confirmation"
+										defaultValue=""
+										control={control}
+										rules={{
+											required: <Typography sx={{ fontSize: 13, color: grey[700] }}>Password confirmation can't be empty.</Typography>,
+											validate: (value) => value === password.current || <Typography sx={{ fontSize: 13, color: grey[700] }}>Password confirmation don't match with new password</Typography>,
+										}}
+									/>
+									<ErrorMessage errors={errors} name="password_confirmation" />
 									<Box sx={{ marginTop: 1, width: "100%", textAlign: "right" }}>
-										<Typography component={NavLink} to="/auth/register" sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize", color: "blue" }}>
-											Sign up
+										<Typography component={NavLink} to="/auth/login" sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize", color: "blue" }}>
+											Sign in
 										</Typography>
 									</Box>
 								</Box>
-								<Button variant="contained" type="submit" fullWidth={true} sx={{ mb: 2 }} disabled={submitted} startIcon={submitted ? <CircularProgress size={16} disableShrink /> : null}>
-									<Typography sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize" }}>Sign In</Typography>
+								<Button variant="contained" type="submit" fullWidth={true} sx={{ marginBottom: 2 }} disabled={submitted} startIcon={submitted ? <CircularProgress size={16} disableShrink /> : null}>
+									<Typography sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize" }}>Sign Up</Typography>
 								</Button>
 							</form>
 						</Box>
@@ -124,4 +175,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;

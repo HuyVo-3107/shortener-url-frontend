@@ -15,6 +15,7 @@ import Links from "./features/Links";
 import RedirectShortUrl from "./features/RedirectShortUrl";
 import LinkDetail from "./features/Links/LinkDetail";
 import Setting from "./features/Setting";
+import Register from "./features/Register";
 
 const App = () => {
 	const queryClient = new QueryClient();
@@ -27,14 +28,16 @@ const App = () => {
 							<Router>
 								<Routes>
 									<Route path="/auth/login" element={<Login />} />
-									<Route path="/dashboard/*" element={<ProtectedRoute />}>
-										<Route path="/dashboard/*" element={<DashboardRoute />}>
+									<Route path="/auth/register" element={<Register />} />
+									<Route path="/dashboard" element={<ProtectedRoute />}>
+										<Route path="/dashboard" element={<DashboardRoute />}>
 											<Route path="links" element={<Links />} />
 											<Route path="links/:short_path" element={<LinkDetail />} />
 											<Route path="setting" element={<Setting />} />
-
+											<Route path="" element={<Navigate to={`/dashboard/links`} replace={true} />} />
 											<Route path="*" element={<Navigate to={`/dashboard/links`} replace={true} />} />
 										</Route>
+										<Route path="*" element={<Navigate to={`/dashboard/links`} replace={true} />} />
 									</Route>
 									<Route path="/s/*" element={<RedirectShortUrl />} />
 									<Route path="/*" element={<Navigate to={`/dashboard/links`} replace={true} />} />
