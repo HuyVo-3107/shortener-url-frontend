@@ -8,10 +8,11 @@ export const useQueryNotification = ({ key, func, options = {} }) => {
 
 	const query = useQuery(key, func, {
 		onError: (error) => {
-			if (options.alert) setNotification({ open: true, message: error.message, severity: "error" }, true);
+			console.log("error", error.message);
+			if (options.alert) setNotification({ open: true, message: error.message, variant: "error" }, true);
 		},
 		onSuccess: (data) => {
-			if (options.alert && data.error) return setNotification({ open: true, message: data.error.message, severity: "error" }, true);
+			if (options.alert && data.error) return setNotification({ open: true, message: data.error.message, variant: "error" }, true);
 		},
 		refetchOnWindowFocus: false,
 		keepPreviousData: true,

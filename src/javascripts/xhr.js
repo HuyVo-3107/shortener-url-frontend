@@ -11,9 +11,8 @@ const refresh_token = async () => {
 		method: "POST",
 		url: constant.AUTH_URL + "/auth/refresh_token",
 		headers: {
-			Authorization: "Bearer " + localStorage.getItem("SA"),
+			Authorization: "Bearer " + localStorage.getItem("HR"),
 		},
-		withCredentials: true,
 	}).catch((exception) => {
 		return { data: { status: exception.response.data.status, message: exception.message } };
 	});
@@ -27,7 +26,7 @@ axios_config.interceptors.request.use(
 		if (typeof url === "undefined") return config;
 
 		if (url !== constant.AUTH_URL + "/auth/login" && url !== constant.AUTH_URL + "/auth/refresh_token") {
-			config.headers.Authorization = localStorage.getItem("SA");
+			config.headers.Authorization = "Bearer " + localStorage.getItem("SA");
 
 			if (localStorage.getItem("SA_EXP") < Math.floor(Date.now() / 1000)) {
 				await refresh_token().then(({ data }) => {
@@ -45,7 +44,6 @@ axios_config.interceptors.request.use(
 				});
 			}
 		}
-
 		return config;
 	},
 	(error) => {
@@ -60,6 +58,7 @@ export const xhr = async (url, data, method, headers = {}, options) => {
 		crossdomain: true,
 		...headers,
 	};
+	console.log("headers", headers);
 
 	return await axios_config({
 		method: method,

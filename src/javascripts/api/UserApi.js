@@ -39,5 +39,26 @@ class UserApi {
 			},
 		});
 	};
+
+	Update = ({ user }, callback) => {
+		return xhr(`${constant.API_URL}/user`, user, "PUT").then(({ data }) => {
+			console.log("data", data);
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
+		});
+	};
 }
 export default UserApi = new UserApi();

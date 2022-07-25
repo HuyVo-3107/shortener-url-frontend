@@ -1,22 +1,11 @@
 import React from "react";
-import { Backdrop, Box } from "@mui/material";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 
 const Loading = () => {
 	return (
 		<Backdrop open={true} sx={{ bgcolor: "transparent" }}>
-			<Box className="loading" sx={{ margin: "auto" }}>
-				<div>
-					<br />
-				</div>
-				<div>
-					<br />
-				</div>
-				<div>
-					<br />
-				</div>
-				<div>
-					<br />
-				</div>
+			<Box sx={{ display: "flex" }}>
+				<CircularProgress />
 			</Box>
 		</Backdrop>
 	);

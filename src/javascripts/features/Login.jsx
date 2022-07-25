@@ -24,7 +24,7 @@ const Login = () => {
 	const ref = useRef(null);
 	const [isShowPassword, UpdateShowPassword] = useState(false);
 	const [submited, UpdateSubmited] = useState(false);
-	const redirect = _.last(location.hash.split("#")) === "" ? "/" : _.last(location.hash.split("#"));
+	const redirect = _.last(location.hash.split("#")) === "" ? "/dashboard" : _.last(location.hash.split("#"));
 
 	const onSubmit = (data) => {
 		console.log("data", data);

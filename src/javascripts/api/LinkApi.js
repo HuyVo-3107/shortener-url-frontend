@@ -1,5 +1,5 @@
 import * as constant from "../constant/common";
-import { xhr } from "../xhr";
+import { xhr, xhr_simple } from "../xhr";
 
 import { useQueryNotification } from "../hooks/useQueryNotification";
 const queryString = require("query-string");
@@ -58,7 +58,7 @@ class LinkApi {
 			key: ["link.list", short_path],
 			func: async () => {
 				console.log("LinkApi");
-				const { data } = await xhr(`${constant.API_URL}/links/${short_path}/get_url`, {}, "GET", {}, {});
+				const { data } = await xhr_simple(`${constant.API_URL}/links/${short_path}/get_url`, {}, "GET", {}, {});
 
 				if (data.error) {
 					return data;
@@ -72,6 +72,75 @@ class LinkApi {
 				suspense: true,
 				keepPreviousData: true,
 			},
+		});
+	};
+
+	Create = ({ link }, callback) => {
+		return xhr(`${constant.API_URL}/links`, link, "POST").then(({ data }) => {
+			console.log("data", data);
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
+		});
+	};
+
+	Detail = ({ short_path }) => {
+		return useQueryNotification({
+			key: ["link.detail", short_path],
+			func: async () => {
+				const { data } = await xhr(`${constant.API_URL}/links/${short_path}`, {}, "GET", {}, {});
+				console.log("data Detail", data.data);
+				if (data.error) {
+					return {
+						link: {},
+					};
+				}
+				let { link } = data.data;
+
+				return {
+					link: { ...link } || {},
+				};
+			},
+			options: {
+				staleTime: 86400,
+				alert: true,
+				suspense: true,
+				keepPreviousData: true,
+				useErrorBoundary: (error) => error.response?.status >= 500,
+			},
+		});
+	};
+
+	Update = ({ link, shortener_path }, callback) => {
+		return xhr(`${constant.API_URL}/links/${shortener_path}`, link, "PUT").then(({ data }) => {
+			console.log("data", data);
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
 		});
 	};
 }

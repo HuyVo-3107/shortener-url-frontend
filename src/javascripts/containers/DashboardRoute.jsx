@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
-import { Box, Divider, Drawer, Grid, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Box, Button, Divider, Drawer, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { LinkOutlined, LogoutOutlined, Settings, SettingsOutlined } from "@mui/icons-material";
+
 import { makeStyles } from "@mui/styles";
-import { Link, NavLink, Outlet, Route, Routes } from "react-router-dom";
+import { Link, NavLink, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import clsx from "clsx";
 import Links from "../features/Links";
 import Loading from "../components/Loading";
+import LinkDetail from "../features/Links/LinkDetail";
+import { ContentCut } from "@mui/icons-material";
 
 const ToolbarStyles = makeStyles((theme) => ({
 	drawer: {
@@ -20,41 +24,48 @@ const ToolbarStyles = makeStyles((theme) => ({
 }));
 
 const DashboardRoute = () => {
-	const [openDrawer, toggleDrawer] = useState(false);
 	const classes = ToolbarStyles();
+	const location = useLocation();
+
+	const handleLogout = () => {
+		localStorage.clear();
+		window.location.href = "/auth/login/";
+	};
 
 	return (
 		<React.Fragment>
 			<Box sx={{ display: "flex" }}>
-				<Drawer
-					variant="permanent"
-					position="relative"
-					className={clsx(classes.drawer)}
-					classes={{
-						paper: clsx({
-							[classes.drawerOpen]: openDrawer,
-							[classes.drawerClose]: !openDrawer,
-						}),
-					}}>
+				<Drawer variant="permanent" position="relative" className={clsx(classes.drawer)}>
 					<List component="nav" dense={true}>
 						<ListItem replace sx={{ width: "240px" }}>
 							<ListItemText disableTypography>
 								<Typography sx={{ my: "auto", fontSize: 16, color: grey[700], fontWeight: 500 }}>Shortener URLs</Typography>
 							</ListItemText>
 						</ListItem>
-
-						<ListItem button component={NavLink} selected to={"/dashboard/links"} activeClassName="active" sx={{ width: "240px" }}>
-							<ListItemText disableTypography>
-								<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>All links</Typography>
-							</ListItemText>
-						</ListItem>
-						<ListItem button component={NavLink} to={"/"} activeClassName="active" sx={{ width: "240px" }}>
-							<ListItemText disableTypography>
-								<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>Setting</Typography>
-							</ListItemText>
-						</ListItem>
 						<Divider />
-						<ListItem replace sx={{ width: "240px" }}>
+						<Box minHeight={250}>
+							<ListItem button component={NavLink} selected={location.pathname == "/dashboard/links"} to={"/dashboard/links"} sx={{ width: "240px" }}>
+								<ListItemIcon>
+									<LinkOutlined />
+								</ListItemIcon>
+								<ListItemText disableTypography>
+									<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>All links</Typography>
+								</ListItemText>
+							</ListItem>
+							<ListItem button component={NavLink} selected={location.pathname == "/dashboard/setting"} to={"/dashboard/setting"} sx={{ width: "240px" }}>
+								<ListItemIcon>
+									<SettingsOutlined />
+								</ListItemIcon>
+								<ListItemText disableTypography>
+									<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>Setting</Typography>
+								</ListItemText>
+							</ListItem>
+						</Box>
+						<Divider />
+						<ListItem replace sx={{ width: "240px" }} component={Button} onClick={() => handleLogout()}>
+							<ListItemIcon>
+								<LogoutOutlined />
+							</ListItemIcon>
 							<ListItemText disableTypography>
 								<Typography sx={{ my: "auto", fontSize: 14, color: grey[700], fontWeight: 500 }}>Logout</Typography>
 							</ListItemText>
