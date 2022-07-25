@@ -4,6 +4,7 @@ import { xhr, xhr_simple } from "../xhr";
 import { useQueryNotification } from "../hooks/useQueryNotification";
 
 class UserApi {
+	// Authencation function
 	Login = (body, callback) => {
 		return xhr_simple(`${constant.AUTH_URL}/auth/login`, body, "POST").then(({ data }) => {
 			if (data.status !== 200 || typeof data.errors !== "undefined") {
@@ -22,6 +23,26 @@ class UserApi {
 		});
 	};
 
+	Register = ({ data }, callback) => {
+		return xhr_simple(`${constant.AUTH_URL}/auth/register`, data, "POST").then(({ data }) => {
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
+		});
+	};
+	// ==============================================================
 	Information = () => {
 		return useQueryNotification({
 			key: ["user.information"],
@@ -43,6 +64,45 @@ class UserApi {
 	Update = ({ user }, callback) => {
 		return xhr(`${constant.API_URL}/user`, user, "PUT").then(({ data }) => {
 			console.log("data", data);
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
+		});
+	};
+	GenerateNewToken = (callback) => {
+		return xhr(`${constant.API_URL}/user/generate_api_token`, {}, "POST").then(({ data }) => {
+			if (typeof data.errors !== "undefined") {
+				if (typeof data.errors !== "undefined") {
+					callback({ open: true, message: data.errors?.message, variant: "error" }, true);
+				}
+
+				return {
+					data: undefined,
+					error: data.errors,
+				};
+			}
+
+			return {
+				data: data.data,
+				status: data.status,
+			};
+		});
+	};
+
+	ChangePassword = ({ data }, callback) => {
+		return xhr(`${constant.API_URL}/user/change_pw`, data, "POST").then(({ data }) => {
 			if (typeof data.errors !== "undefined") {
 				if (typeof data.errors !== "undefined") {
 					callback({ open: true, message: data.errors?.message, variant: "error" }, true);

@@ -36,7 +36,7 @@ const Profile = ({ defaultValue, callback }) => {
 
 	return (
 		<Box component="form" onSubmit={handleSubmit(onSubmit)}>
-			<Box sx={{ mb: 3 }}>
+			<Box sx={{ marginBottom: 3 }}>
 				<Controller
 					render={({ field }) => <TextField {...field} size="small" id="user-name" label="User name (*)" sx={{ minWidth: "100%" }} variant="standard" InputLabelProps={{ shrink: true }} />}
 					type="text"

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Grid, Typography, Box, IconButton, Button } from "@mui/material";
+import { Grid, Typography, Box, IconButton, Button, Divider } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import _ from "lodash";
 import LinkApi from "../api/LinkApi";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AddTwoTone, ArrowBack, RefreshTwoTone } from "@mui/icons-material";
 import LinkCreate from "./Links/LinkCreate";
+import { grey } from "@mui/material/colors";
 
 const Links = () => {
 	const navigate = useNavigate();
@@ -83,16 +84,22 @@ const Links = () => {
 					<Grid item xs={12} md={12}>
 						<Box sx={{ borderBottom: 2, borderColor: "grey.200", display: { lg: "flex", md: "flex", xs: "block" } }}>
 							<Box sx={{ borderBottom: { xl: 0, lg: 0, md: 0, xs: 2 }, borderColor: { xs: "grey.200" } }}>
-								<IconButton aria-label="menu" component={NavLink} to="/dashboard/">
+								<IconButton aria-label="menu" component={NavLink} to="/dashboard/links">
 									<ArrowBack />
 								</IconButton>
 							</Box>
 							<Button sx={{ mt: "auto", mb: "auto", mr: 2 }} color="primary" startIcon={<AddTwoTone />} onClick={() => handleModal({ open: true })}>
 								<Typography sx={{ fontSize: 13, fontWeight: 500 }}>Create Link</Typography>
 							</Button>
-							<Button sx={{ mt: "auto", mb: "auto", mr: 2 }} color="primary" startIcon={<RefreshTwoTone />} onClick={() => refetch()}>
+							<Button sx={{ mt: "auto", mb: "auto", mr: 2, color: grey[700], borderColor: grey[700], "&:hover": { borderColor: grey[700] } }} startIcon={<RefreshTwoTone />} onClick={refetch}>
 								<Typography sx={{ fontSize: 13, fontWeight: 500 }}>Refresh</Typography>
 							</Button>
+						</Box>
+					</Grid>
+					<Grid item xs={12} md={12}>
+						<Box padding={2} paddingY={0}>
+							<Typography variant="h5">Links</Typography>
+							<Divider />
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={12}>

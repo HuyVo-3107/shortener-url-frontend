@@ -7,8 +7,10 @@ import LinkApi from "../../api/LinkApi";
 import NotificationContext from "../../context/notification";
 import { ErrorMessage } from "@hookform/error-message";
 import { grey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
 const LinkCreate = ({ handleClose, open, callback, ...props }) => {
+	const navigate = useNavigate();
 	const { setNotification } = useContext(NotificationContext);
 	const [submitted, UpdateSubmitted] = useState(false);
 
@@ -16,6 +18,7 @@ const LinkCreate = ({ handleClose, open, callback, ...props }) => {
 		handleSubmit,
 		control,
 		formState: { errors },
+		reset,
 	} = useForm();
 
 	const onSubmit = (data) => {
@@ -27,11 +30,15 @@ const LinkCreate = ({ handleClose, open, callback, ...props }) => {
 				console.log("status", status);
 				if (data.link) {
 					if (status == 201) setNotification({ open: true, message: "Create Link success", variant: "success" }, true);
-					if (status == 301) setNotification({ open: true, message: "URL is exist", variant: "warning" }, true);
+					if (status == 301) {
+						navigate(data.link?.shortener_path);
+						setNotification({ open: true, message: "URL is exist", variant: "warning" }, true);
+					}
 				}
 				callback();
 				UpdateSubmitted(false);
 				handleClose();
+				reset();
 			})
 			.catch((exception) => {
 				UpdateSubmitted(false);

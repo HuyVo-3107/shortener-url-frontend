@@ -16,7 +16,7 @@ const LinkDetail = () => {
 	const navigate = useNavigate();
 	const { short_path } = useParams();
 	console.log("short_path", short_path);
-	const { data: data, refetch, isError } = LinkApi.Detail({ short_path: short_path });
+	const { data, refetch, isError } = LinkApi.Detail({ short_path: short_path });
 	const { link } = data || {};
 	console.log("data", link);
 
@@ -35,10 +35,8 @@ const LinkDetail = () => {
 	};
 
 	const handleCopyClick = (copyText) => {
-		// Asynchronously call copyTextToClipboard
 		copyTextToClipboard(copyText)
 			.then(() => {
-				// If successful, update the isCopied state value
 				console.log("copyText", copyText);
 				setNotification({ open: true, message: "Copied in Clipboard", variant: "success" }, true);
 			})
@@ -62,16 +60,22 @@ const LinkDetail = () => {
 									<ArrowBack />
 								</IconButton>
 							</Box>
-							<Button sx={{ mt: "auto", mb: "auto", mr: 2 }} color="primary" startIcon={<RefreshTwoTone />} onClick={refetch}>
+							<Button sx={{ mt: "auto", mb: "auto", mr: 2, color: grey[700], borderColor: grey[700], "&:hover": { borderColor: grey[700] } }} startIcon={<RefreshTwoTone />} onClick={refetch}>
 								<Typography sx={{ fontSize: 13, fontWeight: 500 }}>Refresh</Typography>
 							</Button>
+						</Box>
+					</Grid>
+					<Grid item xs={12} md={12}>
+						<Box padding={2} paddingY={0}>
+							<Typography variant="h5">Links</Typography>
+							<Divider />
 						</Box>
 					</Grid>
 					<Grid item xs={12} md={12}>
 						<Box padding={2} paddingBottom={0} paddingTop={0}>
 							<Grid container spacing={2}>
 								<Grid item xs={12} md={12}>
-									<Box sx={{ alignItems: "center", display: "flex" }} borderRadius={1} padding={1}>
+									<Box sx={{ alignItems: "center", display: "flex", borderRadius: 1, paddingY: 1 }}>
 										<Box width={"100%"}>
 											<Typography variant="h6">{link.title}</Typography>
 										</Box>

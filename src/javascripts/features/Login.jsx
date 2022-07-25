@@ -23,14 +23,14 @@ const Login = () => {
 
 	const ref = useRef(null);
 	const [isShowPassword, UpdateShowPassword] = useState(false);
-	const [submited, UpdateSubmited] = useState(false);
+	const [submitted, UpdateSubmitted] = useState(false);
 	const redirect = _.last(location.hash.split("#")) === "" ? "/dashboard" : _.last(location.hash.split("#"));
 
 	const onSubmit = (data) => {
 		console.log("data", data);
 		UserApi.Login(data, setNotification)
 			.then(({ data, headers }) => {
-				UpdateSubmited(false);
+				UpdateSubmitted(false);
 				if (typeof data === "undefined") return;
 
 				const { access_token, access_exp, refresh_token, refresh_exp } = data.data;
@@ -53,7 +53,7 @@ const Login = () => {
 			<Grid container sx={{ flexGrow: 1, backgroundColor: grey[200], height: "100vh" }} justifyContent="center" alignItems="center">
 				<Grid item xl={3} lg={4} md={4} xs={12} sx={{ p: { xs: 2 } }}>
 					<Paper elevation={0}>
-						<Box sx={{ p: 4 }}>
+						<Box sx={{ padding: 4 }}>
 							<form ref={ref} onSubmit={handleSubmit(onSubmit)}>
 								<Box sx={{ mb: 3 }}>
 									<Controller
@@ -72,7 +72,7 @@ const Login = () => {
 									/>
 									<ErrorMessage errors={errors} name="email" />
 								</Box>
-								<Box sx={{ mb: 4 }}>
+								<Box sx={{ marginBottom: 4 }}>
 									<Controller
 										render={({ field }) => (
 											<TextField
@@ -103,13 +103,13 @@ const Login = () => {
 										}}
 									/>
 									<ErrorMessage errors={errors} name="password" />
-									<Box sx={{ mt: 1, width: "100%", textAlign: "right" }}>
+									{/* <Box sx={{ marginTop: 1, width: "100%", textAlign: "right" }}>
 										<Typography component={NavLink} to="/auth/forgotpw" sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize", color: "blue" }}>
 											Forgot Password
 										</Typography>
-									</Box>
+									</Box> */}
 								</Box>
-								<Button variant="contained" type="submit" fullWidth={true} sx={{ mb: 2 }} disabled={submited} startIcon={submited ? <CircularProgress size={16} disableShrink /> : null}>
+								<Button variant="contained" type="submit" fullWidth={true} sx={{ mb: 2 }} disabled={submitted} startIcon={submitted ? <CircularProgress size={16} disableShrink /> : null}>
 									<Typography sx={{ fontSize: 14, fontWeight: 500, textTransform: "capitalize" }}>User Login</Typography>
 								</Button>
 							</form>
